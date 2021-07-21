@@ -8,7 +8,7 @@ from faker import Faker
 fake = Faker()
 
 # Global variable
-filepath_service_description = "config/service_description.txt"
+filepath_service_description = "../config/service_description.txt"
 
 def filetolist(file_path):
     def fileread(file_read):
@@ -32,7 +32,7 @@ def format(item_dictionary,item_max):
 
 def print_data(item_list):
     #use pretty print to generate requested formating
-    pprint.pprint(item_list)
+    pprint.pprint(item_list,sort_dicts=False)
 
 def input_data(item_max):
     # generate list of service description
@@ -45,7 +45,8 @@ def input_data(item_max):
         generated_data[i] = {}
         generated_data[i]["client_first_name"] = fake.first_name()
         generated_data[i]["client_last_name"] = fake.last_name()
-        generated_data[i]["service_description"] = fake.words(1,service_description_list,True)[0]
+        generated_data[i]["service_description"] = fake.words(1, service_description_list, True)[0]
+        generated_data[i]["service_date"] = fake.date_of_birth().strftime("%Y-%m-%d")
     return generated_data
 
 
@@ -63,6 +64,11 @@ def main():
     # Test
     # service_description_list = filetolist(filepath_service_description)
     # print(format(generated_data, number_of_entries))
+    one_entry = (format(input_data(1), 1))
+    # Using iter to parse dictionary keys with next
+    iter_one_entry = (iter(one_entry[0]))
+    assert print(next(iter_one_entry)) == "client_first_name"
+
 
 
 if __name__ == "__main__":

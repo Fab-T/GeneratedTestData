@@ -2,3 +2,6 @@
 myenv/
 __pycache__
 
+#to exclude
+GeneratedTestData/sum.py
+test_somme.py

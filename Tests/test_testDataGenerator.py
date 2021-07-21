@@ -1,5 +1,5 @@
 # unit tests for the module testDataGenerator
-import os
+
 from GeneratedTestData import testDataGenerator
 
 # test 5 entries generates 5 items
@@ -18,7 +18,4 @@ def test_generateformat():
     assert print(next(iter_one_entry)) == "client_first_name"
     assert print(next(iter_one_entry)) == "client_first_name"
     assert print(next(iter_one_entry)) == "service_description"
-
-
-
-
+    assert print(next(iter_one_entry)) == "service_date"
