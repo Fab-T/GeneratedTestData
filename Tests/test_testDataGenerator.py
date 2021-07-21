@@ -20,4 +20,5 @@ def test_generateformat():
     assert print(next(iter_one_entry)) == "service_description"
     assert print(next(iter_one_entry)) == "service_date"
     assert print(next(iter_one_entry)) == "service_performed_by"
+    assert print(next(iter_one_entry)) == "service_amount_paid"
 

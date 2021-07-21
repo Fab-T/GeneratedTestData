@@ -3,12 +3,17 @@ This small program is used to generate test data matching a given format.
 The output of this program will be a list of dictionary items
 """
 import pprint
-import os
+import decimal
+import random
+
 from faker import Faker
 fake = Faker()
 
 # Global variable
-filepath_service_description = "../config/service_description.txt"
+# Path to the file that list all type of service description
+FILEPATH_SERVICE_DESCRIPTION = "../config/service_description.txt"
+# Maximum amount a provider can bill
+MAX_AMOUNT_RANGE = 10000
 
 def filetolist(file_path):
     def fileread(file_read):
@@ -24,11 +29,11 @@ def filetolist(file_path):
 
 def format(item_dictionary,item_max):
     # remove index and create list
-    TEST_DATA_GENERATED_ITEMS = []
+    test_data_generated_items = []
     for i in range(0, item_max):
-        TEST_DATA_GENERATED_ITEMS.append(item_dictionary[i])
+        test_data_generated_items.append(item_dictionary[i])
 
-    return TEST_DATA_GENERATED_ITEMS
+    return test_data_generated_items
 
 def print_data(item_list):
     #use pretty print to generate requested formating
@@ -36,7 +41,7 @@ def print_data(item_list):
 
 def input_data(item_max):
     # generate list of service description
-    service_description_list = filetolist(filepath_service_description)
+    service_description_list = filetolist(FILEPATH_SERVICE_DESCRIPTION)
 
 
     # dictionnary
@@ -48,6 +53,7 @@ def input_data(item_max):
         generated_data[i]["service_description"] = fake.words(1, service_description_list, True)[0]
         generated_data[i]["service_date"] = fake.date_of_birth().strftime("%Y-%m-%d")
         generated_data[i]["service_performed_by"] = "Dr. "+ fake.name()
+        generated_data[i]["service_amount_paid"] = '{}'.format(decimal.Decimal(random.randrange(0, MAX_AMOUNT_RANGE))/100)
     return generated_data
 
 
