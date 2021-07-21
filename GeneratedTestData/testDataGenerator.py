@@ -47,6 +47,7 @@ def input_data(item_max):
         generated_data[i]["client_last_name"] = fake.last_name()
         generated_data[i]["service_description"] = fake.words(1, service_description_list, True)[0]
         generated_data[i]["service_date"] = fake.date_of_birth().strftime("%Y-%m-%d")
+        generated_data[i]["service_performed_by"] = "Dr. "+ fake.name()
     return generated_data
 
 
@@ -59,16 +60,10 @@ def main():
     # Generate fake data
     generated_data = (input_data(number_of_entries))
     # format data and print it
+    # print(format(generated_data, number_of_entries))
     print_data(format(generated_data, number_of_entries))
 
     # Test
-    # service_description_list = filetolist(filepath_service_description)
-    # print(format(generated_data, number_of_entries))
-    one_entry = (format(input_data(1), 1))
-    # Using iter to parse dictionary keys with next
-    iter_one_entry = (iter(one_entry[0]))
-    assert print(next(iter_one_entry)) == "client_first_name"
-
 
 
 if __name__ == "__main__":
