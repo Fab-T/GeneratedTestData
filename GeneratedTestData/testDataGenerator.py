@@ -43,8 +43,10 @@ def input_data(item_max):
     # generate list of service description
     service_description_list = filetolist(FILEPATH_SERVICE_DESCRIPTION)
 
+    # generate list of currencies
+    amount_currency_list = ['CAD', 'USD']
 
-    # dictionnary
+    # generate dictionary
     generated_data= {}
     for i in range(0, item_max):
         generated_data[i] = {}
@@ -54,6 +56,7 @@ def input_data(item_max):
         generated_data[i]["service_date"] = fake.date_of_birth().strftime("%Y-%m-%d")
         generated_data[i]["service_performed_by"] = "Dr. "+ fake.name()
         generated_data[i]["service_amount_paid"] = '{}'.format(decimal.Decimal(random.randrange(0, MAX_AMOUNT_RANGE))/100)
+        generated_data[i]["service_amount_currency"] = fake.words(1, amount_currency_list, True)[0]
     return generated_data
 
 
