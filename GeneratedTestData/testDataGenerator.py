@@ -3,7 +3,7 @@ This small program is used to generate test data matching a given format.
 The output of this program will be a list of dictionary items
 
 usage:
-    python testDataGenerator.py {--file} number_of_entries
+    ./testDataGenerator.py {--file} number_of_entries
 
 Example for generating 50 fake data entries:
     ./testDataGenerator.py 50
@@ -32,16 +32,23 @@ FILEPATH_SERVICE_DESCRIPTION = "../config/service_description.txt"
 # Maximum amount a provider can bill
 MAX_AMOUNT_RANGE = 10000
 
+# Check the formatting for file FILEPATH_SERVICE_DESCRIPTION
+# should not contain empty value
+
+def check_file_service_description_format(list_service):
+    error_msg = "the file used for service description is not formatted correctly."
+    if '' in list_service:
+        sys.exit(error_msg + " It contains empty value")
+
+# Checking the value given for the number of entries to generate
+# Should check the value is an integer and is not above t
 def check_number_of_entries(entries_input):
     try:
         entries_number = int(entries_input)
         if entries_number > 1000:
-            print('Enter a number of entries lower than 1000')
-            sys.exit(1)
+            sys.exit("Enter a number of entries lower than 1000")
     except ValueError:
-        print("The value you entered ({}) cannot be converted to an integer".format(entries_input))
-        print_usage()
-        sys.exit(1)
+        sys.exit("The value you entered ({}) cannot be converted to an integer".format(entries_input))
     return entries_number
 
 def filetolist(file_path):
@@ -52,11 +59,14 @@ def filetolist(file_path):
                 file_string=f.read()
                 f.close()
         return file_string
-
+    # remove newline at the end of the file if exists
+    service_description = fileread(file_path).rstrip()
     # define a list of words (separated by comma)
-    list_words_separated_by_comma = fileread(file_path).split(",")
+    service_description_separated_by_comma = service_description.split(",")
+    # check if the file is formatted correctly
+    check_file_service_description_format(service_description_separated_by_comma)
 
-    return list_words_separated_by_comma
+    return service_description_separated_by_comma
 
 def format(item_dictionary,item_max):
     # remove index and create list
