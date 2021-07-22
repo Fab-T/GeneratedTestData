@@ -39,6 +39,7 @@ MAX_AMOUNT_RANGE = 10000
 def check_file_service_description_format(list_service):
     error_msg = "the file used for service description is not formatted correctly."
     if '' in list_service:
+        # TODO: Improvement #4 : better logging should be created
         sys.exit(error_msg + " It contains empty value")
 
 # Checking the value given for the number of entries to generate
@@ -110,6 +111,7 @@ def input_data(item_max):
         generated_data[i]["client_last_name"] = fake.last_name()
         generated_data[i]["service_description"] = fake.words(1, service_description_list, True)[0]
         generated_data[i]["service_date"] = fake.date_of_birth().strftime("%Y-%m-%d")
+        # TODO: Improvement #3 Service_performed_by is currently adding Dr. for all services - needs update
         generated_data[i]["service_performed_by"] = "Dr. " + fake.name()
         generated_data[i]["service_amount_paid"] = '{}'.format(decimal.Decimal(random.randrange(0, MAX_AMOUNT_RANGE)) / 100)
         generated_data[i]["service_amount_currency"] = fake.words(1, amount_currency_list, True)[0]
@@ -138,7 +140,7 @@ def main():
         number_of_entries_input = sys.argv[3]
         if option == '--file':
             print("This option is currently not implemented. Running using file /config/service_description.txt")
-            # TODO: implement a feature to pass the file containing the service description as an argument.
+            # TODO: Improvement #2 a file for service description could pass as an argument.
         else:
             print('unknown option: ' + option)
             sys.exit(1)
