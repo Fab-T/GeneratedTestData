@@ -1,19 +1,48 @@
 """
 This small program is used to generate test data matching a given format.
 The output of this program will be a list of dictionary items
+
+usage:
+    python testDataGenerator.py {--file} number_of_entries
+
+Example for generating 50 fake data entries:
+    ./testDataGenerator.py 50
+
+Variables:
+    FILEPATH_SERVICE_DESCRIPTION is the path to a file containing a list of all possible service description
+    MAX_AMOUNT_RANGE is the maximum value that can be generated as amount paid.
+
+Config:
+    service_description.txt contains a list of all possible services a doctor can perform.
+    It is located within config directory and can be updated
+    The format is important, service description should be separated by comma
 """
 import pprint
 import decimal
 import random
+import sys
 
+# Using Faker library that produces fake data
 from faker import Faker
 fake = Faker()
 
-# Global variable
+# Global variables
 # Path to the file that list all type of service description
 FILEPATH_SERVICE_DESCRIPTION = "../config/service_description.txt"
 # Maximum amount a provider can bill
 MAX_AMOUNT_RANGE = 10000
+
+def check_number_of_entries(entries_input):
+    try:
+        entries_number = int(entries_input)
+        if entries_number > 1000:
+            print('Enter a number of entries lower than 1000')
+            sys.exit(1)
+    except ValueError:
+        print("The value you entered ({}) cannot be converted to an integer".format(entries_input))
+        print_usage()
+        sys.exit(1)
+    return entries_number
 
 def filetolist(file_path):
     def fileread(file_read):
@@ -23,8 +52,10 @@ def filetolist(file_path):
                 file_string=f.read()
                 f.close()
         return file_string
+
     # define a list of words (separated by comma)
     list_words_separated_by_comma = fileread(file_path).split(",")
+
     return list_words_separated_by_comma
 
 def format(item_dictionary,item_max):
@@ -59,20 +90,43 @@ def input_data(item_max):
         generated_data[i]["service_amount_currency"] = fake.words(1, amount_currency_list, True)[0]
     return generated_data
 
+def print_usage():
+    print("usage: ./testDataGenerator.py {--file} number_of_entries \n"
+          "Example: ./testDataGenerator.py 50 \n"
+          "Example: ./testDataGenerator.py --file config/service_description.txt 50 \n"
+          )
 
 def main():
 
-    # Enter number of Entries
-    #TODO make this an argument of the script
-    number_of_entries = 5
+# This basic command line argument parsing code is provided to
+# define the number of entries which you must define.
+# Default value is 5.
+# Optional : file path for the list of service descriptions.
+
+    if len(sys.argv) > 4 or len(sys.argv) == 3:
+        print_usage()
+        sys.exit(1)
+    if len(sys.argv) == 4:
+        option = sys.argv[1]
+        number_of_entries_input = sys.argv[3]
+        if option == '--file':
+            print("This option is currently not implemented. Running using file /config/service_description.txt")
+            # TODO: implement a feature to pass the file containing the service description as an argument.
+        else:
+            print('unknown option: ' + option)
+            sys.exit(1)
+    else:
+        if len(sys.argv) == 2:
+            number_of_entries_input = sys.argv[1]
+        else:
+            number_of_entries_input = 5
+
+    number_of_entries = check_number_of_entries(number_of_entries_input)
 
     # Generate fake data
     generated_data = (input_data(number_of_entries))
     # format data and print it
-    # print(format(generated_data, number_of_entries))
     print_data(format(generated_data, number_of_entries))
-
-    # Test
 
 
 if __name__ == "__main__":
