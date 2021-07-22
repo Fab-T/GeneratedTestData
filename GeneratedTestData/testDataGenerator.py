@@ -35,13 +35,16 @@ MAX_AMOUNT_RANGE = 10000
 # Check the formatting for file FILEPATH_SERVICE_DESCRIPTION
 # should not contain empty value
 
+
 def check_file_service_description_format(list_service):
     error_msg = "the file used for service description is not formatted correctly."
     if '' in list_service:
         sys.exit(error_msg + " It contains empty value")
 
 # Checking the value given for the number of entries to generate
-# Should check the value is an integer and is not above t
+# Should check the value is an integer and is not above 1000
+
+
 def check_number_of_entries(entries_input):
     try:
         entries_number = int(entries_input)
@@ -51,12 +54,15 @@ def check_number_of_entries(entries_input):
         sys.exit("The value you entered ({}) cannot be converted to an integer".format(entries_input))
     return entries_number
 
+# reading a file containing comma separated list of word and create a list
+
+
 def filetolist(file_path):
     def fileread(file_read):
-        #check is filename is a string then open file to read/put lines in a single string, then close filename.
-        if isinstance(file_read,str):
-            with open(file_read,'r') as f:
-                file_string=f.read()
+        # check is filename is a string then open file to read/put lines in a single string, then close filename.
+        if isinstance(file_read, str):
+            with open(file_read, 'r') as f:
+                file_string = f.read()
                 f.close()
         return file_string
     # remove newline at the end of the file if exists
@@ -68,7 +74,10 @@ def filetolist(file_path):
 
     return service_description_separated_by_comma
 
-def format(item_dictionary,item_max):
+# Format generated data from faker to requested format
+
+
+def format(item_dictionary, item_max):
     # remove index and create list
     test_data_generated_items = []
     for i in range(0, item_max):
@@ -76,9 +85,15 @@ def format(item_dictionary,item_max):
 
     return test_data_generated_items
 
+# Use Pretty Print to return to Stdout the expected data
+
+
 def print_data(item_list):
-    #use pretty print to generate requested formating
-    pprint.pprint(item_list,sort_dicts=False)
+    # use pretty print to generate requested formating
+    pprint.pprint(item_list, sort_dicts=False)
+
+# generate the fake data for a number of entries (item_max)
+
 
 def input_data(item_max):
     # generate list of service description
@@ -88,17 +103,18 @@ def input_data(item_max):
     amount_currency_list = ['CAD', 'USD']
 
     # generate dictionary
-    generated_data= {}
+    generated_data = {}
     for i in range(0, item_max):
         generated_data[i] = {}
         generated_data[i]["client_first_name"] = fake.first_name()
         generated_data[i]["client_last_name"] = fake.last_name()
         generated_data[i]["service_description"] = fake.words(1, service_description_list, True)[0]
         generated_data[i]["service_date"] = fake.date_of_birth().strftime("%Y-%m-%d")
-        generated_data[i]["service_performed_by"] = "Dr. "+ fake.name()
-        generated_data[i]["service_amount_paid"] = '{}'.format(decimal.Decimal(random.randrange(0, MAX_AMOUNT_RANGE))/100)
+        generated_data[i]["service_performed_by"] = "Dr. " + fake.name()
+        generated_data[i]["service_amount_paid"] = '{}'.format(decimal.Decimal(random.randrange(0, MAX_AMOUNT_RANGE)) / 100)
         generated_data[i]["service_amount_currency"] = fake.words(1, amount_currency_list, True)[0]
     return generated_data
+
 
 def print_usage():
     print("usage: ./testDataGenerator.py {--file} number_of_entries \n"
@@ -106,12 +122,13 @@ def print_usage():
           "Example: ./testDataGenerator.py --file config/service_description.txt 50 \n"
           )
 
+
 def main():
 
-# This basic command line argument parsing code is provided to
-# define the number of entries which you must define.
-# Default value is 5.
-# Optional : file path for the list of service descriptions.
+    # This basic command line argument parsing code is provided to
+    # define the number of entries which you must define.
+    # Default value is 5.
+    # Optional : file path for the list of service descriptions.
 
     if len(sys.argv) > 4 or len(sys.argv) == 3:
         print_usage()

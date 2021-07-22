@@ -1,2 +1,4 @@
 Faker==8.10.0
 pytest==6.2.4
+flake8
+pre-commit

@@ -1,0 +1,6 @@
+# We ignore the following PEP-8 styles:
+# E501  line too long (82 > 79 characters) (^)
+
+[flake8]
+ignore = E501
+max-complexity = 18
