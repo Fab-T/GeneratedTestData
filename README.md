@@ -15,16 +15,19 @@ Short useful program that generates usable test data formatted such as the follo
           }
           ]
 ```
-##pre-commit:
+##pre-commit
     
-    Linting with flake
-    
-    In order to enable the auto-formatting in the development process, you have to spend a few seconds setting up the pre-commit the first time you clone the repo.
-    
-    Install pre-commit by running: pip install pre-commit (or simply run pip install -r requirements.txt).
+    *Linting with flake
+        
+        In order to enable the auto-formatting in the development process, you have to spend a few seconds setting up 
+        the pre-commit the first time you clone the repo.
+        
+        Install pre-commit by running: pip install pre-commit (or simply run pip install -r requirements.txt).
+        
         Run pre-commit install to install the git hook.
-    
-    Once you successfully install the pre-commit hook to this repo, the Flake8 linter/formatter will be automatically triggered and run on this repo.
+        
+        Once you successfully install the pre-commit hook to this repo, the Flake8 linter/formatter will be 
+        automatically triggered and run on this repo.
 
 ##Building and running
     
